@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    article h2 {
+      cursor: pointer;
+    }
+    .content {
+      position: relative;
+      -webkit-perspective: 1000px;
+    }
+    .content .wrapper {
+      /*display: none;*/
+    }
+    .slice-even {
+      top: 0;
+    }
+    .slice-odd {
+      bottom: 0;
+    }
+    .slice .wrapper {
+      position: absolute;
+    }
+    .slice-wrap {
+      position: relative;
+    }
+    p {
+      margin: 0;
+      padding: 0 0 1em 0;
+    }
+    body {
+      margin: 2em;
+      font: 14px "trebuchet ms";
+    }
+    .slices {
+      /*position: absolute;
+      top: 0;*/
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+    <script>
+      $(function(){
+        $('article h2').click(function(){
+          var slices = 4;
+          var $article = $(this).parent(),
+            $content = $('.content', $article)
+            $wrapper = $('.content .wrapper', $article);
+
+          var $proxy = $wrapper.clone();
+          $proxy.css({width: $wrapper.width(), display: 'block', position: 'absolute', left: -4000});
+          $('body').append($proxy);
+
+          var contentHeight = $proxy.height();
+          var sliceHeight = Math.round(contentHeight / slices);
+          $proxy.remove();
+          var offset = 0;
+          var a = [];
+
+          a.length = slices;
+          $.each(a, function(i){
+            var even = (i % 2) == 0;
+            var $slice = $('<div class="slice slice-' + (even ? 'even' : 'odd')+ '">').html($wrapper.clone());
+            $slice.css({
+              position: 'absolute',
+            });
+            if (even) {
+              $slice.css('top', 0);
+            }
+            else {
+              $slice.css('bottom', 0)
+            }
+            var $sliceWrap = $('<div class="slice-wrap">').html($slice);
+            $slice.css({
+              height: sliceHeight,
+              width: $wrapper.width(),
+              overflow: 'hidden',
+              display: 'block',
+            });
+            $sliceWrap.css({
+              height: 1,
+            });
+            $('.wrapper', $slice).css({top: -offset})
+            offset += sliceHeight;
+            $('.slices', $content).append($sliceWrap);
+
+            var origin = even ? '0px 0px' : '0px ' + sliceHeight + 'px';
+            var sign = !even ? '+' : '-';
+
+            $slice.css({
+              WebkitPerspectiveStyle: 'preserve-3d',
+              WebkitTransformOrigin: origin,
+            });
+
+            $slice.animate({ foo: 1 }, {
+              duration: 400,
+              queue: false,
+              step: function(to){
+
+                var degs = 90 * to;
+                var rads = Math.abs(degs) * Math.PI / 180;
+                var h = Math.sin(rads) * sliceHeight;
+
+                var g = 200 + Math.round(56 * to);
+                var rgb = [g, g, g];
+
+                $slice.css({
+                  WebkitTransform: 'rotateX(' + sign + (90 - degs) + 'deg)',
+                  background: '-webkit-gradient(linear, 0 0, 0 60%, from(rgb(' + rgb.join(',') + ')), to(#fff))'
+                });
+
+                $slice.parent().css('height', h);
+              },
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    
+    <article>
+      
+      <h2>This is the Article Title</h2>
+      
+      <div class="content">
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        
+        <div class="slices"></div>
+        <div class="wrapper">
+          
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        
+        </div>
+      </div>
+      
+    </article>
+    
+    <article>
+      
+      <h2>This is the Article Title</h2>
+     
+    </article>
+    
+  </body>
+</html>
