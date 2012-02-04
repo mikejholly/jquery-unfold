@@ -75,7 +75,7 @@
           $outer.parent().css('height', h);
         },
         complete: function() {
-          $main.replaceWith($that.show());
+          $main.replaceWith($that.css('display', 'block'));
         }
       });
     })(i);
