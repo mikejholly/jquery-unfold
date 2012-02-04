@@ -2,16 +2,17 @@
   $.fn.unfold = function(opts) {
     opts = $.extend({
       slices: 6,
-      duration: 4000,
+      duration: 600,
+      operation: 'open',
     }, opts);
 
     var $that = $(this);
     var slices = [];
     var sliceHeight = $that.height() / opts.slices;
-    console.log($that.height());
     var $div = $('<div>').css({position: 'relative'});
     $that.wrap($div);
     var $main = $that.parent().empty();
+    var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
 
     for (var i = 0; i < opts.slices; i++) (function(i) {
       var even = (i % 2) == 0;
@@ -19,15 +20,18 @@
       var $slice = $('<div>').css({
         position: 'relative',
         height: 0,
-        webkitPerspective: 1000,
+        WebkitPerspective: 1000,
+        MozPerspective: 1000,
       });
 
+      var origin = even ? '0px 0px' : '0px ' + sliceHeight + 'px';
       var $outer = $('<div>').css({
         overflow: 'hidden',
         position: 'absolute',
         width: $main.width(),
         height: sliceHeight,
-        WebkitTransformOrigin: even ? '0px 0px' : '0px ' + sliceHeight + 'px'
+        WebkitTransformOrigin: origin,
+        MozTransformOrigin: origin
       });
 
       if (even) {
@@ -43,8 +47,10 @@
         top: -(sliceHeight * i)
       });
 
-      var $copy = $that.clone();
-      $('*:first', $copy).css('margin-top', 0);// Handle collapsed margins
+      var $copy = $that.clone().css({display: 'block'});
+
+      // Handle collapsed margins (a little buggy)
+      $('*:first', $copy).css('margin-top', 0);
 
       $inner.append($copy);
       $outer.append($inner);
@@ -53,16 +59,19 @@
 
       $outer.animate({ foo: 1 }, {
         duration: opts.duration,
+        easing: opts.easing || null,
         step: function(v) {
           var degs = 90 * v;
           var rads = Math.abs(degs) * Math.PI / 180;
           var h = Math.sin(rads) * sliceHeight;
           var g = 200 + Math.round(56 * v);
           var rgb = [g, g, g];
-
+          var transform = 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)';
+          var color = 'rgb(' + rgb.join(',') + ')';
           $outer.css({
-            WebkitTransform: 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)',
-            background: '-webkit-gradient(linear, 0 0, 0 60%, from(rgb(' + rgb.join(',') + ')), to(#fff))'
+            WebkitTransform: transform,
+            MozTransform: transform,
+            backgroundImage: '-' + ext + '-linear-gradient(top, ' + color + ', #fff)',
           });
 
           $outer.parent().css('height', h);
@@ -74,5 +83,9 @@
     })(i);
 
     return this;
+  };
+  $.fn.fold = function(opts) {
+    opts.operation = 'close';
+    $(this).unfold(opts);
   };
 })(jQuery);
