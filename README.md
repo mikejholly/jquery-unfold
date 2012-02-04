@@ -1,8 +1,8 @@
 # Unfold to the Max
 
-Introducing *jQuery Unfold*. Now you can do fancy Mail app style unfold effects in your browser. Yay!
+Introducing *jQuery Unfold*. Now you can do fancy Mail app style unfold effects in your browser. It looks great in Webkit and ok in Firefox (as usual).
 
-[Experience the live demo](http://mikejholly.github.com/jquery-unfold/)
+[Experience the live demo now!](http://mikejholly.github.com/jquery-unfold/)
 
 ## Unfold Some Content
 
@@ -12,7 +12,7 @@ $(window).load(function() {
 });
 ```
 
-*Note the use of ```$(window).load```. The content needs to be loaded first!*
+*Note the use of ```$(window).load```. The content needs to be loaded before calculating heights.*
 
 ## Collapse it
 
@@ -30,6 +30,24 @@ $('article').unfold({
   duration: 1000,
   slices: 10 
 });
+```
+
+### Tumblr "Plug-in"
+
+```
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+<script type="text/javascript" src="https://raw.github.com/danro/jquery-easing/master/jquery.easing.js"></script>
+<script type="text/javascript" src="https://raw.github.com/mikejholly/jquery-unfold/master/jquery.unfold.js"></script>
+<script type="text/javascript">
+$(function() {
+  $('.post h2').click(function(){
+    $(this).parent().find('.regular_body').unfold();
+  });
+});
+</script>
+<style>
+.post .regular_body { display: none; }
+</style>
 ```
 
 ### Notes
