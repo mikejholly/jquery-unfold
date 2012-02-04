@@ -67,13 +67,13 @@
           var g = 200 + Math.round(56 * v);
           var rgb = [g, g, g];
           var transform = 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)';
-          var color = 'rgb(' + rgb.join(',') + ')';
+          var colors = ['rgb(' + rgb.join(',') + ')', '#fff'];
+          if (!even) colors = colors.reverse();
           $outer.css({
             WebkitTransform: transform,
             MozTransform: transform,
-            backgroundImage: '-' + ext + '-linear-gradient(top, ' + color + ', #fff)',
+            backgroundImage: '-' + ext + '-linear-gradient(top, ' + colors.join(',') + ')',
           });
-
           $outer.parent().css('height', h);
         },
         complete: function() {
