@@ -2,7 +2,7 @@
 
 Introducing *jQuery Unfold*. Now you can do fancy Mail app style unfold effects in your browser. Yay!
 
-[See a live demo](http://example.net/)
+[Experience the live demo](http://mikejholly.github.com/jquery-unfold/)
 
 ## Unfold Some Content
 
