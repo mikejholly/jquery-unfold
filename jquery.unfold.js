@@ -1,12 +1,14 @@
 (function($){
   $.fn.unfold = function(opts) {
     opts = $.extend({
-      slices: 5
+      slices: 6,
+      duration: 4000,
     }, opts);
 
     var $that = $(this);
     var slices = [];
     var sliceHeight = $that.height() / opts.slices;
+    console.log($that.height());
     var $div = $('<div>').css({position: 'relative'});
     $that.wrap($div);
     var $main = $that.parent().empty();
@@ -25,7 +27,6 @@
         position: 'absolute',
         width: $main.width(),
         height: sliceHeight,
-        border: '1px solid blue',
         WebkitTransformOrigin: even ? '0px 0px' : '0px ' + sliceHeight + 'px'
       });
 
@@ -39,9 +40,11 @@
       var $inner = $('<div>').css({
         position: 'absolute',
         height: sliceHeight,
+        top: -(sliceHeight * i)
       });
 
       var $copy = $that.clone();
+      $('*:first', $copy).css('margin-top', 0);// Handle collapsed margins
 
       $inner.append($copy);
       $outer.append($inner);
@@ -49,7 +52,7 @@
       $main.append($slice);
 
       $outer.animate({ foo: 1 }, {
-        duration: 400,
+        duration: opts.duration,
         step: function(v) {
           var degs = 90 * v;
           var rads = Math.abs(degs) * Math.PI / 180;
@@ -64,6 +67,9 @@
 
           $outer.parent().css('height', h);
         },
+        complete: function() {
+          //$main.replaceWith($that);
+        }
       });
     })(i);
 
