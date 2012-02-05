@@ -7,10 +7,14 @@
     <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic' rel='stylesheet' type='text/css'>
     <script>
       $(function() {
-        $('#opener').click(function(){
+        var shift = false;
+        $('#opener').click(function(e) {
+          var duration = parseInt($('#duration').val());
+          if (e.shiftKey) duration *= 5;
           $('article').unfold({
             easing: $('#easing').val(),
-            duration: parseInt($('#duration').val())
+            duration: duration,
+            collapse: true
           });
         });
       });
@@ -50,6 +54,8 @@
     <header><h2>This is the Article Title</h2></header>
 
     <button id="opener">Show me the money!</button>
+    
+    <p><small>(Hold shift when clicking to slow down)</small></p>
 
     <article style="display:none">
       

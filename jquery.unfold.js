@@ -5,7 +5,8 @@
       slices: Math.round($that.height() / 100),
       duration: 600,
       operation: 'open',
-      easing: null
+      easing: null,
+      collapse: false
     }, opts);
 
     var slices = [];
@@ -49,6 +50,7 @@
       });
 
       var $copy = $that.clone().css({display: 'block'});
+      opts.collapse && $('> *:first', $copy).css('margin-top', 0);
 
       $inner.append($copy);
       $outer.append($inner);
@@ -66,7 +68,6 @@
           var rgb = [g, g, g];
           var transform = 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)';
           var colors = ['rgb(' + rgb.join(',') + ')', '#fff'];
-          //if (!even) colors = colors.reverse();
           $outer.css({
             WebkitTransform: transform,
             MozTransform: transform,
