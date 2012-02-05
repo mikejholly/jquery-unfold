@@ -66,7 +66,7 @@
           var rgb = [g, g, g];
           var transform = 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)';
           var colors = ['rgb(' + rgb.join(',') + ')', '#fff'];
-          if (!even) colors = colors.reverse();
+          //if (!even) colors = colors.reverse();
           $outer.css({
             WebkitTransform: transform,
             MozTransform: transform,
@@ -75,7 +75,7 @@
           $outer.parent().css('height', h);
         },
         complete: function() {
-          $main.replaceWith($that.show());
+          $main.replaceWith($that.css('display', 'block'));
         }
       });
     })(i);
