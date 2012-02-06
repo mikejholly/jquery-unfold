@@ -1,6 +1,7 @@
 (function($){
   $.fn.unfold = function(opts) {
     var $that = $(this);
+
     opts = $.extend({
       slices: Math.round($that.height() / 100),
       duration: 600,
@@ -9,8 +10,9 @@
       collapse: false
     }, opts);
 
-    var slices = [];
+    var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
     var sliceHeight = $that.height() / opts.slices;
+
     var $div = $('<div>').css({
       position: 'relative',
       WebkitPerspective: 600,
@@ -20,7 +22,6 @@
     });
     $that.wrap($div);
     var $main = $that.parent().empty();
-    var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
 
     for (var i = 0; i < opts.slices; i++) (function(i) {
       var even = (i % 2) == 0;
