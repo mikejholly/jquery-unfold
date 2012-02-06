@@ -7,10 +7,15 @@
     <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic' rel='stylesheet' type='text/css'>
     <script>
       $(function() {
-        $('#opener').click(function(){
+        var shift = false;
+        $('#opener').click(function(e) {
+          var duration = parseInt($('#duration').val());
+          if (e.shiftKey) duration *= 5;
           $('article').unfold({
             easing: $('#easing').val(),
-            duration: parseInt($('#duration').val())
+            duration: duration,
+            collapse: true,
+            slices: 15
           });
         });
       });
@@ -44,20 +49,20 @@
         <option value="easeOutCubic">easeOutCubic</option>
       </select>
       <label>Duration</label>
-      <input id="duration" value="600" type="range" min="500" max="3000" step="100">
+      <input id="duration" value="1500" type="range" min="500" max="2500" step="100">
     </form>
     
-    <header><h2>This is the Article Title</h2></header>
-
-    <button id="opener">Show me the money!</button>
+    <p>
+      <button id="opener">Show me the money!</button>
+      <br>
+      <small>(Hold shift when clicking to slow down)</small>
+    </p>
 
     <article style="display:none">
       
+      <h3>Can't touch this</h3>
+      
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      
-      <h3>Shameless Self-promotion</h3>
-      
-      <a href="http://facing.me" target="_blank"><img src="image.png"></a>
       
       <h3>Some More Text</h3>
     
@@ -66,7 +71,11 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  
+      
+      <h3>Shameless Self-promotion</h3>
+      
+      <a href="http://facing.me" target="_blank"><img src="image.png"></a>
+      
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

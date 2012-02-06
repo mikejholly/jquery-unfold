@@ -1,8 +1,9 @@
 # Unfold to the Max
 
-Introducing *jQuery Unfold*. Now you can do fancy Mail app style unfold effects in your browser. It looks great in Webkit and ok in Firefox (as usual).
+Introducing *jQuery Unfold*. Now you can do fancy Mail app style unfold effects in your browser. It looks great in Webkit and pretty good in Firefox (seems to be the new status quo).
 
-[Experience the live demo now!](http://mikejholly.github.com/jquery-unfold/)
+* [Check out the demo.](http://mikejholly.github.com/jquery-unfold/)
+* [Read more about how it works.](http://mikejholly.com)
 
 ## Unfold Some Content
 
