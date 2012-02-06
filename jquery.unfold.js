@@ -22,7 +22,8 @@
       var $slice = $('<div>').css({
         position: 'relative',
         height: 0,
-        WebkitPerspective: 1000,
+        WebkitPerspective: 600,
+        WebkitPerspectiveOrigin: 'center 50%',
         MozPerspective: 1000,
       });
 
@@ -61,19 +62,23 @@
         duration: opts.duration,
         easing: opts.easing,
         step: function(v) {
-          var degs = 90 * v;
-          var rads = Math.abs(degs) * Math.PI / 180;
-          var h = Math.sin(rads) * sliceHeight;
+          var degs = 90 - 90 * v;
+          if (even) degs *= -1;
+
+          var rads = Math.abs(90 - degs) * Math.PI / 180;
+          var h = Math.sin(rads) * (sliceHeight);
+          $outer.parent().css('height', h);
+
           var g = 200 + Math.round(56 * v);
           var rgb = [g, g, g];
-          var transform = 'rotateX(' + (even ? '+' : '-') + (90 - degs) + 'deg)';
+
+          var transform = 'rotateX(' + degs + 'deg)';
           var colors = ['rgb(' + rgb.join(',') + ')', '#fff'];
           $outer.css({
             WebkitTransform: transform,
             MozTransform: transform,
             backgroundImage: '-' + ext + '-linear-gradient(top, ' + colors.join(',') + ')',
           });
-          $outer.parent().css('height', h);
         },
         complete: function() {
           $main.replaceWith($that.css('display', 'block'));
