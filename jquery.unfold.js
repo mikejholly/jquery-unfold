@@ -11,7 +11,13 @@
 
     var slices = [];
     var sliceHeight = $that.height() / opts.slices;
-    var $div = $('<div>').css({position: 'relative'});
+    var $div = $('<div>').css({
+      position: 'relative',
+      WebkitPerspective: 600,
+      MozPerspective: 600,
+      WebkitPerspectiveOrigin: 'center 50%',
+      MozPerspectiveOrigin: 'center 50%',
+    });
     $that.wrap($div);
     var $main = $that.parent().empty();
     var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
@@ -21,10 +27,7 @@
 
       var $slice = $('<div>').css({
         position: 'relative',
-        height: 0,
-        WebkitPerspective: 600,
-        WebkitPerspectiveOrigin: 'center 50%',
-        MozPerspective: 1000,
+        height: 0
       });
 
       var origin = even ? '0px 0px' : '0px ' + sliceHeight + 'px';
