@@ -1,26 +1,35 @@
 (function($){
   $.fn.unfold = function(opts) {
     var $that = $(this);
+    var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
+
+    // Measure element width
+    var $measure = $that.clone().css({display:'block'});
+    $that.after($measure);
+    var width = $measure.width();
+    $measure.remove();
 
     opts = $.extend({
       slices: Math.round($that.height() / 100),
       duration: 600,
+      perspective: 800,
       operation: 'open',
       easing: null,
-      collapse: false
+      collapse: false,
+      shadow: true
     }, opts);
 
-    var ext = navigator.userAgent.match(/Safari/) ? 'webkit' : 'moz';
     var sliceHeight = $that.height() / opts.slices;
 
     var $div = $('<div>').css({
       position: 'relative',
-      WebkitPerspective: 600,
-      MozPerspective: 600,
+      WebkitPerspective: opts.perspective,
+      MozPerspective: opts.perspective,
       WebkitPerspectiveOrigin: 'center 50%',
-      MozPerspectiveOrigin: 'center 50%',
+      MozPerspectiveOrigin: 'center 50%'
     });
     $that.wrap($div);
+
     var $main = $that.parent().empty();
 
     for (var i = 0; i < opts.slices; i++) (function(i) {
@@ -31,11 +40,18 @@
         height: 0
       });
 
+      if (ext == 'moz') {
+        $slice.css({
+          MozPerspective: opts.perspective, // Fix FF perspective issue
+          overflow: 'hidden',
+        });
+      }
+
       var origin = even ? '0px 0px' : '0px ' + sliceHeight + 'px';
       var $outer = $('<div>').css({
         overflow: 'hidden',
         position: 'absolute',
-        width: $main.width(),
+        width: width,
         height: sliceHeight,
         WebkitTransformOrigin: origin,
         MozTransformOrigin: origin
@@ -50,7 +66,6 @@
 
       var $inner = $('<div>').css({
         position: 'absolute',
-        height: sliceHeight,
         top: -(sliceHeight * i)
       });
 
@@ -60,6 +75,13 @@
       $inner.append($copy);
       $outer.append($inner);
       $slice.append($outer);
+      if (opts.shadow) {
+        var $shadow = $outer.clone().empty().css({
+          backgroundImage: '-' + ext + '-linear-gradient(top, black, transparent)',
+          zIndex: 1
+        });
+        $slice.append($shadow);
+      }
       $main.append($slice);
 
       $outer.animate({ foo: 1 }, {
@@ -71,17 +93,18 @@
 
           var rads = Math.abs(90 - degs) * Math.PI / 180;
           var h = Math.sin(rads) * (sliceHeight);
-          $outer.parent().css('height', h);
-
-          var g = 200 + Math.round(56 * v);
-          var rgb = [g, g, g];
 
           var transform = 'rotateX(' + degs + 'deg)';
-          var colors = ['rgb(' + rgb.join(',') + ')', '#fff'];
           $outer.css({
             WebkitTransform: transform,
+            MozTransform: transform
+          });
+          $outer.parent().css('height', h);
+
+          opts.shadow && $shadow.css({
+            WebkitTransform: transform,
             MozTransform: transform,
-            backgroundImage: '-' + ext + '-linear-gradient(top, ' + colors.join(',') + ')',
+            opacity: .2 - .2 * v
           });
         },
         complete: function() {

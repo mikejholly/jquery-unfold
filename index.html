@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://raw.github.com/danro/jquery-easing/master/jquery.easing.js"></script>
     <script src="jquery.unfold.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic' rel='stylesheet' type='text/css'>
@@ -15,7 +15,8 @@
             easing: $('#easing').val(),
             duration: duration,
             collapse: true,
-            slices: 15
+            slices: 16,
+            perspective: 800
           });
         });
       });
@@ -53,7 +54,7 @@
     </form>
     
     <p>
-      <button id="opener">Show me the money!</button>
+      <button id="opener">Unfold!</button>
       <br>
       <small>(Hold shift when clicking to slow down)</small>
     </p>
